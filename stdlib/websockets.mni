@@ -1,0 +1,13 @@
+load "socket";
+
+class WebSocket {
+  WebSocket() {
+    this.connection = nil;
+  }
+
+  connecti(url, options) {
+    let opt = newSocket(url, options);
+    this.connection = opt.connect();
+  }
+
+}
