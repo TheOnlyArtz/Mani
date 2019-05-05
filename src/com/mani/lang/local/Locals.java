@@ -3,6 +3,8 @@ package com.mani.lang.local;
 import com.mani.lang.ManiCallable;
 import com.mani.lang.ManiCallableInternal;
 import com.mani.lang.ManiInstance;
+//import io.socketClient.client.Socket;
+import io.socket.engineio.client.Socket;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,8 +46,32 @@ public class Locals {
             return ((ManiInstance) workWith).getClassName();
         } else if (workWith instanceof Thread) {
             return "thread";
+        } else if (workWith instanceof Socket) {
+            return "socket";
         }
         return null;
+    }
+
+    public static Boolean canConvert(Object type1, Object type2) {
+        String standard = type1.toString();
+        switch (standard.toLowerCase()) {
+            case "string":
+            case "number":
+                if (getType(type2).equals("string")) { return true; }
+                if (getType(type2).equals("number")) { return true; }
+                if (getType(type2).equals("list")) { return true; }
+                return false;
+            case "map":
+                if (getType(type2).equals("string")) { return true; }
+                if (getType(type2).equals("list")) { return true; }
+                if (getType(type2).equals("map")) { return true; }
+                return false;
+            case "list":
+                if (getType(type2).equals("String")) { return true; }
+                if (getType(type2).equals("list")) { return true; }
+                return false;
+        }
+        return false;
     }
 
     public static ManiCallable getFunction(Object workWith, String lookingFor) {
